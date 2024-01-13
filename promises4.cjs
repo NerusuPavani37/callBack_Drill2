@@ -10,9 +10,9 @@
 const fs = require("fs");
 const path = require("path");
 
-let boards = require("./callback1.cjs");
-let lists = require("./callback2.cjs");
-let cards = require("./callback3.cjs");
+let boards = require("./promises1.cjs");
+let lists = require("./promises2.cjs");
+let cards = require("./promises3.cjs");
 
 function pro() {
   let boardsPath = path.join(__dirname, "boards_1.json");
@@ -29,26 +29,36 @@ function pro() {
         id = ele.id;
       }
     });
-    boards(id, (err, data) => {
-      if (err) {
-        throw err;
+
+    async function boardsTest() {
+      try {
+        let obj = await boards(id);
+        if (obj) {
+          console.log(obj);
+        } else {
+          console.log("could not find data");
+        }
+      } catch (err) {
+        console.log(err);
       }
-      if (data) {
-        console.log(data);
-      } else {
-        console.log("could not find data");
+    }
+    boardsTest();
+
+    async function listsTest() {
+      try {
+        let obj = await lists(id);
+        if (obj) {
+          console.log(obj);
+        } else {
+          console.log("could not find data");
+        }
+      } catch (err) {
+        console.log(err);
       }
-    });
-    lists(id, (err, data) => {
-      if (err) {
-        throw err;
-      }
-      if (data) {
-        console.log(data);
-      } else {
-        console.log("could not find data");
-      }
-    });
+    }
+
+    listsTest();
+
     let listsPath = path.join(__dirname, "lists_1.json");
 
     fs.readFile(listsPath, "utf-8", (err, data) => {
@@ -67,17 +77,20 @@ function pro() {
         });
       });
 
-      cards(mindId, (err, data) => {
-        if (err) {
-          throw err;
+      async function cardsTests() {
+        try {
+          let obj = await cards(mindId);
+          if (obj) {
+            console.log(obj);
+          } else {
+            console.log("could not find data");
+          }
+        } catch (err) {
+          console.log(err);
         }
+      }
 
-        if (data) {
-          console.log(data);
-        } else {
-          console.log("data could not find");
-        }
-      });
+      cardsTests();
     });
   });
 }
