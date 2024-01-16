@@ -1,4 +1,3 @@
-const { rejects } = require("assert");
 const fs = require("fs");
 const path = require("path");
 
@@ -16,7 +15,6 @@ function getBoardInformation(boardID) {
           const foundBoard = boards.find((board) => {
             return board.id === boardID;
           });
-
           if (foundBoard) {
             resolve(foundBoard);
           } else {
